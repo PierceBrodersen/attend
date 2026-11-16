@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attend — the AI scribe that gives doctors their patients back</title>
+  <meta name="description" content="Attend listens to the visit and drafts the clinical note, so physicians can spend the appointment with their patient instead of the keyboard.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%2313223A%27/%3E%3Cpath d=%27M3 17h6l3-8 4 15 3-11 2 4h8%27 fill=%27none%27 stroke=%27%235CC6B0%27 stroke-width=%272.6%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Apply saved/system theme before paint to avoid a flash
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('attend-theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body data-page="home">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="index.html" aria-label="Attend home">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M2 17h7l3-8 4 15 3-11 2 4h9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        attend
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="about.html">How it works</a>
+        <a href="#calculator">Your time back</a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <h1>Look up from<br>the keyboard.</h1>
+        <svg class="pulse" viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 30 H150 L165 30 L175 8 L188 52 L198 30 H260 C270 30 272 18 280 18 C288 18 290 42 298 42 C306 42 308 14 316 14 C324 14 326 46 334 46 C342 46 344 22 352 22 C360 22 362 38 370 38 C378 38 380 26 388 26 C396 26 398 34 406 34 C414 34 416 30 424 30 H600" />
+        </svg>
+        <p class="lede">Attend listens to the visit and drafts the note while it happens. You stay in the conversation, review a finished draft in about three minutes, and go home on time.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="about.html">See how Attend works</a>
+          <a class="btn btn-quiet" href="#calculator">Estimate your time back</a>
+        </div>
+      </div>
+      <figure class="hero-video">
+        <video autoplay muted loop playsinline preload="auto" aria-label="A physician talking face to face with a patient while Attend listens">
+          <source src="video.mp4" type="video/mp4">
+          Your browser does not support embedded video.
+        </video>
+        <figcaption>The appointment, with the laptop closed.</figcaption>
+      </figure>
+    </section>
+
+    <section class="facts" aria-labelledby="facts-title">
+      <div class="wrap">
+        <h2 id="facts-title" class="facts-title reveal">Where a physician's day goes now</h2>
+        <dl class="facts-grid">
+          <div class="fact reveal">
+            <dt><span class="count" data-to="27" data-suffix="%">27%</span></dt>
+            <dd>of the clinic day is spent face to face with patients.</dd>
+          </div>
+          <div class="fact reveal">
+            <dt><span class="count" data-to="2" data-suffix=" hrs">2 hrs</span></dt>
+            <dd>of EHR and desk work for every hour of patient care.</dd>
+          </div>
+          <div class="fact reveal">
+            <dt><span class="count" data-to="16" data-suffix=" min">16 min</span></dt>
+            <dd>in the EHR for the average patient encounter.</dd>
+          </div>
+        </dl>
+        <p class="facts-source">Sources: Sinsky et al., <cite>Annals of Internal Medicine</cite>, 2016; Overhage &amp; McCallie, <cite>Annals of Internal Medicine</cite>, 2020.</p>
+      </div>
+    </section>
+
+    <section class="steps wrap" aria-labelledby="steps-title">
+      <h2 id="steps-title" class="reveal">One visit with Attend</h2>
+      <ol class="step-list">
+        <li class="reveal">
+          <h3>You talk with your patient</h3>
+          <p>Tap start on your phone and set it down. Attend captures the conversation, with the patient's consent, and nothing else.</p>
+        </li>
+        <li class="reveal">
+          <h3>Attend drafts the note</h3>
+          <p>By the time you stand up, a structured note is waiting: history, exam, assessment and plan, in your template and your voice.</p>
+        </li>
+        <li class="reveal">
+          <h3>You review and sign</h3>
+          <p>Every line links back to the moment in the visit it came from. Edit anything, then sign it into the chart.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="calculator" class="calc" aria-labelledby="calc-title">
+      <div class="wrap calc-inner">
+        <div class="calc-form reveal">
+          <h2 id="calc-title">How much time would you get back?</h2>
+          <p class="calc-intro">Move the sliders to match a typical week. We assume Attend leaves you about 3 minutes of review per note.</p>
+
+          <div class="field">
+            <label for="patients">Patients per day <output for="patients" id="patients-out">20</output></label>
+            <input type="range" id="patients" min="6" max="40" step="1" value="20">
+          </div>
+          <div class="field">
+            <label for="minutes">Minutes documenting each patient <output for="minutes" id="minutes-out">16</output></label>
+            <input type="range" id="minutes" min="4" max="30" step="1" value="16">
+          </div>
+          <div class="field">
+            <label for="days">Clinic days per week <output for="days" id="days-out">4</output></label>
+            <input type="range" id="days" min="1" max="6" step="1" value="4">
+          </div>
+          <div class="field">
+            <label for="rate">What an hour of your time is worth <output for="rate" id="rate-out">$150</output></label>
+            <input type="range" id="rate" min="50" max="400" step="10" value="150">
+          </div>
+        </div>
+
+        <div class="calc-result reveal" aria-live="polite">
+          <p class="result-label">Time back every week</p>
+          <p class="result-big"><span id="hours-week">17.3</span><span class="unit">hours</span></p>
+          <dl class="result-list">
+            <div><dt>Per year</dt><dd id="hours-year">797 hours</dd></div>
+            <div><dt>Value of that time</dt><dd id="dollars-year">$119,600</dd></div>
+            <div><dt>Same as 40-hour weeks</dt><dd id="weeks">19.9 weeks</dd></div>
+          </dl>
+          <p class="result-note" id="result-note">That's 13 more minutes you could give each patient, or about 52 extra visits a week if you chose to see more people.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing wrap">
+      <h2 class="reveal">Medicine is a conversation. Attend handles the paperwork.</h2>
+      <a class="btn btn-primary reveal" href="about.html">See how Attend works</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>Attend</strong> is a concept product built for ITOM 6216 (Generative AI for Business), Lab 5, at SMU Cox. It is not a real medical device.</p>
+      <p><a href="about.html#about-site">About this site's features</a></p>
+    </div>
+  </footer>
+
+  <!-- Chatbot -->
+  <div class="chat" data-open="false">
+    <button class="chat-launch" type="button" aria-expanded="false" aria-controls="chat-panel">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>Ask Attend</span>
+    </button>
+    <section id="chat-panel" class="chat-panel" role="dialog" aria-label="Ask Attend chatbot" hidden>
+      <header class="chat-head">
+        <div>
+          <p class="chat-title">Ask Attend</p>
+          <p class="chat-sub">Answers about the product, privacy and pricing</p>
+        </div>
+        <button class="chat-close" type="button" aria-label="Close chat">&times;</button>
+      </header>
+      <div class="chat-log" role="log" aria-live="polite"></div>
+      <div class="chat-chips"></div>
+      <form class="chat-form" autocomplete="off">
+        <label class="visually-hidden" for="chat-input">Type your question</label>
+        <input id="chat-input" type="text" placeholder="Ask a question…" maxlength="300">
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

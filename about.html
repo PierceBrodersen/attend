@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Attend works — Attend</title>
+  <meta name="description" content="How the Attend AI scribe works, how it keeps patient data private, and how its notes are checked for accuracy.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%278%27 fill=%27%2313223A%27/%3E%3Cpath d=%27M3 17h6l3-8 4 15 3-11 2 4h8%27 fill=%27none%27 stroke=%27%235CC6B0%27 stroke-width=%272.6%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('attend-theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body data-page="about">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="index.html" aria-label="Attend home">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M2 17h7l3-8 4 15 3-11 2 4h9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        attend
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="index.html#calculator">Your time back</a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="article wrap">
+    <header class="article-head">
+      <h1>How Attend works</h1>
+      <p class="lede">Attend is an ambient AI scribe. It listens to a clinic visit, writes the note, and hands it to the physician to check and sign, so the hour belongs to the patient again.</p>
+    </header>
+
+    <nav class="toc" aria-label="On this page">
+      <a href="#problem">The problem</a>
+      <a href="#how">From conversation to chart</a>
+      <a href="#accuracy">Keeping notes accurate</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#why">Why this project</a>
+      <a href="#about-site">About this site</a>
+    </nav>
+
+    <section id="problem" class="prose reveal">
+      <h2>The problem</h2>
+      <p>Physicians went into medicine to take care of people, but the electronic health record now takes up more of their day than the people do. A widely cited time-and-motion study found that doctors in ambulatory practice spent only about 27% of their day in direct face time with patients and nearly half of it on EHR and desk work. For every hour with a patient, almost two more went to the screen, and many finished their charts at home at night.</p>
+      <p>That cost shows up everywhere. Patients feel rushed and unheard when their doctor is typing. Physicians burn out and leave practice early. Clinics lose appointment slots to documentation that could be done another way.</p>
+    </section>
+
+    <section id="how" class="prose reveal">
+      <h2>From conversation to chart</h2>
+      <ol class="flow">
+        <li><strong>Consent and capture.</strong> The physician asks the patient for permission, then taps start in the Attend app on their phone. Audio is encrypted the moment it is recorded.</li>
+        <li><strong>Transcription.</strong> A speech-recognition model trained on clinical vocabulary turns the conversation into a transcript and works out who is speaking.</li>
+        <li><strong>Drafting.</strong> A large language model reads the transcript and writes a note in the physician's own template: history of present illness, review of systems, exam, assessment and plan. It also suggests orders and billing codes, but never places them on its own.</li>
+        <li><strong>Review and sign.</strong> The physician reads the draft, where every sentence links back to the part of the conversation it came from. They edit anything that is wrong, then sign it into the EHR.</li>
+      </ol>
+    </section>
+
+    <section id="accuracy" class="prose reveal">
+      <h2>Keeping notes accurate</h2>
+      <p>The biggest risk with a generative model in the exam room is hallucination: a note that sounds right but includes something the patient never said. Attend is built around that risk instead of hoping it goes away.</p>
+      <ul>
+        <li><strong>Every claim needs a source.</strong> A sentence in the note that cannot be traced back to the transcript is flagged in amber, and the physician has to look at it before signing.</li>
+        <li><strong>The physician always signs.</strong> Attend writes drafts. A licensed clinician is the only one who can put a note in the chart.</li>
+        <li><strong>A reference set of real visits.</strong> Before any model update ships, it is run against a library of de-identified visits that physicians have already annotated. Each draft is checked for missed findings, invented findings, and wrong medication doses.</li>
+        <li><strong>Watching for new failure modes.</strong> When physicians make heavy edits to a draft, that note is pulled for review, so the team finds new kinds of errors before they become patterns.</li>
+      </ul>
+    </section>
+
+    <section id="privacy" class="prose reveal">
+      <h2>Privacy</h2>
+      <p>Attend is designed to meet HIPAA requirements and would sign a business associate agreement with every practice. Audio is deleted once the note is signed, transcripts are kept only as long as the practice chooses, and patient data is never used to train models without explicit permission. Names and identifiers are scrubbed from anything used for quality review.</p>
+    </section>
+
+    <section id="why" class="prose reveal">
+      <h2>Why this project</h2>
+      <p>This idea comes from my own time in clinical training. I loved taking care of patients, and I kept watching great doctors spend their evenings fighting the chart instead of being with their families or their patients. Ambient AI is one of the first technologies that could give that time back, as long as it is built carefully and judged by whether physicians actually trust what it writes.</p>
+    </section>
+
+    <section id="about-site" class="prose site-notes reveal">
+      <h2>About this site</h2>
+      <p>This site was built for Lab 5 of ITOM 6216, Generative AI for Business. Besides the required video, second page and chatbot, it includes these additional features:</p>
+      <ul>
+        <li><strong>Interactive time-back calculator.</strong> On the home page, visitors set their patients per day, minutes spent documenting each patient, clinic days and hourly value. The page instantly works out the hours and dollars Attend would give back each week and year, plus how many extra minutes that means for each patient.</li>
+        <li><strong>Dark and light mode.</strong> The moon and sun button in the top corner switches themes. The site starts in whichever mode the visitor's device prefers and remembers their choice between pages.</li>
+        <li><strong>Animation and motion.</strong> A heartbeat line draws itself under the headline and turns into a voice waveform when the page loads. The statistics count up and the sections reveal as you scroll. All motion turns off for visitors who have asked their device to reduce motion.</li>
+        <li><strong>A scripted chatbot on both pages.</strong> "Ask Attend" answers common questions about the product, privacy, accuracy, EHR support and pricing, and offers suggested questions to get started.</li>
+      </ul>
+    </section>
+
+    <div class="article-end">
+      <a class="btn btn-primary" href="index.html#calculator">Estimate your time back</a>
+      <a class="btn btn-quiet" href="index.html">Back to home</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p><strong>Attend</strong> is a concept product built for ITOM 6216 (Generative AI for Business), Lab 5, at SMU Cox. It is not a real medical device.</p>
+      <p>Sources: Sinsky et al., <cite>Annals of Internal Medicine</cite>, 2016; Overhage &amp; McCallie, <cite>Annals of Internal Medicine</cite>, 2020.</p>
+    </div>
+  </footer>
+
+  <!-- Chatbot -->
+  <div class="chat" data-open="false">
+    <button class="chat-launch" type="button" aria-expanded="false" aria-controls="chat-panel">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>Ask Attend</span>
+    </button>
+    <section id="chat-panel" class="chat-panel" role="dialog" aria-label="Ask Attend chatbot" hidden>
+      <header class="chat-head">
+        <div>
+          <p class="chat-title">Ask Attend</p>
+          <p class="chat-sub">Answers about the product, privacy and pricing</p>
+        </div>
+        <button class="chat-close" type="button" aria-label="Close chat">&times;</button>
+      </header>
+      <div class="chat-log" role="log" aria-live="polite"></div>
+      <div class="chat-chips"></div>
+      <form class="chat-form" autocomplete="off">
+        <label class="visually-hidden" for="chat-input">Type your question</label>
+        <input id="chat-input" type="text" placeholder="Ask a question…" maxlength="300">
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
